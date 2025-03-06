@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Form Handling</title>
+</head>
+<body>
+
+    <h2>User Information Form</h2>
+
+    <form id="userForm">
+        <label>Name:</label>
+        <input type="text" name="name" required /><br><br>
+
+        <label>Email:</label>
+        <input type="email" name="email" required /><br><br>
+
+        <label>Phone:</label>
+        <input type="tel" name="phone" required /><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <h3>Submitted Data:</h3>
+    <pre id="output"></pre>
+
+    <script>
+        const users = [];
+
+        document.getElementById('userForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent page refresh
+
+            const formData = new FormData(event.target);
+            const user = {};
+
+            formData.forEach((value, key) => {
+                user[key] = value; // Store single-value inputs normally
+            });
+
+            users.push(user); // Store user data in the array
+            document.getElementById('output').textContent = JSON.stringify(users, null, 4); // Display stored data
+        });
+    </script>
+
+</body>
+</html>

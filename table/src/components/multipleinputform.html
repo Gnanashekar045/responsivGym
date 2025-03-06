@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Form Handling</title>
+</head>
+<body>
+
+    <h2>User Information Form</h2>
+
+    <form id="userForm">
+        <label>Name:</label>
+        <input type="text" name="name" required /><br><br>
+
+        <label>Email:</label>
+        <input type="email" name="email" required /><br><br>
+
+        <label>Age:</label>
+        <input type="number" name="age" required /><br><br>
+
+        <label>Phone:</label>
+        <input type="tel" name="phone" required /><br><br>
+
+        <label>Address:</label>
+        <input type="text" name="address" required /><br><br>
+
+        <!-- First Radio Group: Gender -->
+        <label>Gender:</label>
+        <input type="radio" name="gender" value="Male" /> Male
+        <input type="radio" name="gender" value="Female" /> Female
+        <input type="radio" name="gender" value="Other" /> Other<br><br>
+
+        <!-- Second Radio Group: Experience Level -->
+        <label>Experience Level:</label>
+        <input type="radio" name="experience" value="Beginner" /> Beginner
+        <input type="radio" name="experience" value="Intermediate" /> Intermediate
+        <input type="radio" name="experience" value="Expert" /> Expert<br><br>
+
+        <label>Hobbies:</label>
+        <input type="checkbox" name="hobbies" value="Reading" /> Reading
+        <input type="checkbox" name="hobbies" value="Gaming" /> Gaming
+        <input type="checkbox" name="hobbies" value="Traveling" /> Traveling
+        <input type="checkbox" name="hobbies" value="Cooking" /> Cooking<br><br>
+
+        <label>Skills:</label>
+        <input type="checkbox" name="skills" value="HTML" /> HTML
+        <input type="checkbox" name="skills" value="CSS" /> CSS
+        <input type="checkbox" name="skills" value="JavaScript" /> JavaScript
+        <input type="checkbox" name="skills" value="React" /> React<br><br>
+
+        <label>Country:</label>
+        <select name="country">
+            <option value="USA">USA</option>
+            <option value="Canada">Canada</option>
+            <option value="UK">UK</option>
+            <option value="India">India</option>
+        </select><br><br>
+
+        <label>Date of Birth:</label>
+        <input type="date" name="dob" /><br><br>
+
+        <label>Upload File:</label>
+        <input type="file" name="file" /><br><br>
+
+        <label>Message:</label>
+        <textarea name="message" placeholder="Enter your message"></textarea><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <h3>Submitted Data:</h3>
+    <pre id="output"></pre>
+
+    <script>
+        const users = [];
+
+        document.getElementById('userForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent page refresh
+
+            const formData = new FormData(event.target);
+            const user = {};
+
+            formData.forEach((value, key) => {
+                // Handle checkboxes (store multiple selected values as an array)
+                if (user[key]) {
+                    if (!Array.isArray(user[key])) {
+                        user[key] = [user[key]]; // Convert to array if not already
+                    }
+                    user[key].push(value);
+                } else {
+                    user[key] = value; // Store single-value inputs normally
+                }
+            });
+
+            // Special handling for file inputs
+            const fileInput = document.querySelector('input[name="file"]');
+            user.file = fileInput.files.length > 0 ? fileInput.files[0].name : ""; // Get file name
+
+            users.push(user); // Store user data in the array
+            document.getElementById('output').textContent = JSON.stringify(users, null, 4); // Display stored data
+        });
+    </script>
+
+</body>
+</html>
