@@ -1,9 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 
 const ToDOList = () => {
     const [tasks, setTasks] = useState(["By Groceries", "learn react"])
     const [task, setTask] = useState("")
+
+    useEffect(() => {
+        const savedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
+        setTasks(savedTasks);
+    }, []);
+
+    // ✅ Save tasks to localStorage whenever they change
+    useEffect(() => {
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+    }, [tasks]);
 
     const AddTasks = (e) => {
         e.preventDefault();
